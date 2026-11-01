@@ -1,0 +1,51 @@
+version: "2"
+linters:
+  enable:
+    - asasalint
+    - asciicheck
+    - bidichk
+    - containedctx
+    - copyloopvar
+    - durationcheck
+    - errorlint
+    - gochecknoinits
+    - iface
+    - importas
+    - makezero
+    - mirror
+    - nilnesserr
+    - prealloc
+    - predeclared
+    - reassign
+    - recvcheck
+    - thelper
+    - unconvert
+    - unparam
+    - usestdlibvars
+    - wastedassign
+    - whitespace
+  disable:
+    - errcheck
+  settings:
+    staticcheck:
+      checks:
+        - S1*
+        - SA*
+  exclusions:
+    generated: lax
+    presets:
+      - comments
+      - common-false-positives
+      - legacy
+      - std-error-handling
+    paths:
+      - third_party$
+      - builtin$
+      - examples$
+formatters:
+  exclusions:
+    generated: lax
+    paths:
+      - third_party$
+      - builtin$
+      - examples$
