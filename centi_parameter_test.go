@@ -2,6 +2,7 @@ package hase
 
 import (
 	"math"
+	"strconv"
 	"testing"
 )
 
@@ -129,6 +130,16 @@ func TestCentiParameterString(t *testing.T) {
 	} {
 		if got := tc.in.String(); got != tc.want {
 			t.Errorf("CentiParameter(%d).String() = %q, want %q", tc.in, got, tc.want)
+		}
+	}
+}
+
+func TestCentiParameterStringMatchesFormatFloat(t *testing.T) {
+	for n := int32(math.MinInt16); n <= math.MaxInt16; n++ {
+		c := CentiParameter(n)
+		want := strconv.FormatFloat(float64(c)/100, 'f', 2, 64)
+		if got := c.String(); got != want {
+			t.Fatalf("CentiParameter(%d).String() = %q, want %q", n, got, want)
 		}
 	}
 }

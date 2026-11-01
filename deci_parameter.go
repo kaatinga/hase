@@ -1,9 +1,6 @@
 package hase
 
-import (
-	"math"
-	"strconv"
-)
+import "math"
 
 type DeciParameter int16
 
@@ -14,7 +11,22 @@ func NewDeciParameter[T realNumber](value T) DeciParameter {
 
 // String converts a deci-parameter to a string with one decimal place.
 func (d DeciParameter) String() string {
-	return strconv.FormatFloat(float64(d)/10, 'f', 1, 64)
+	n := int32(d)
+	neg := n < 0
+	if neg {
+		n = -n
+	}
+
+	var buf [8]byte
+	i := 0
+	if neg {
+		buf[0] = '-'
+		i = 1
+	}
+	i = writeDecimalPairs(buf[:], i, uint32(n/10))
+	buf[i] = '.'
+	buf[i+1] = byte(n%10) + '0'
+	return string(buf[:i+2])
 }
 
 // Float converts a deci-parameter to any float.

@@ -2,6 +2,7 @@ package hase
 
 import (
 	"math"
+	"strconv"
 	"testing"
 )
 
@@ -115,6 +116,16 @@ func TestOffsetDeciParameterString(t *testing.T) {
 	} {
 		if got := tc.in.String(); got != tc.want {
 			t.Errorf("OffsetDeciParameter(%d).String() = %q, want %q", tc.in, got, tc.want)
+		}
+	}
+}
+
+func TestOffsetDeciParameterStringMatchesFormatFloat(t *testing.T) {
+	for code := 0; code <= 255; code++ {
+		d := OffsetDeciParameter(code)
+		want := strconv.FormatFloat(float64(d)/10+offsetDeciBaseC, 'f', 1, 64)
+		if got := d.String(); got != want {
+			t.Errorf("OffsetDeciParameter(%d).String() = %q, want %q", code, got, want)
 		}
 	}
 }

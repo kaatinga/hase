@@ -2,6 +2,7 @@ package hase
 
 import (
 	"math"
+	"strconv"
 	"testing"
 )
 
@@ -129,6 +130,16 @@ func TestDeciParameterString(t *testing.T) {
 	} {
 		if got := tc.in.String(); got != tc.want {
 			t.Errorf("DeciParameter(%d).String() = %q, want %q", tc.in, got, tc.want)
+		}
+	}
+}
+
+func TestDeciParameterStringMatchesFormatFloat(t *testing.T) {
+	for n := int32(math.MinInt16); n <= math.MaxInt16; n++ {
+		d := DeciParameter(n)
+		want := strconv.FormatFloat(float64(d)/10, 'f', 1, 64)
+		if got := d.String(); got != want {
+			t.Fatalf("DeciParameter(%d).String() = %q, want %q", n, got, want)
 		}
 	}
 }
